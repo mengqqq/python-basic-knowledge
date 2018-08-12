@@ -1,0 +1,104 @@
+#配置环境，安装项目所需package,此部分代码只需运行一次即可
+pip install -r requirement.txt
+conda install -c conda-forge wordcloud --y
+#导入项目中所需要的包
+import pandas as pd
+import re
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+print("所有库导入成功")
+#读取数据
+dataset=pd.read_csv('wechat_friends.csv').fillna('').to_dict('records')
+print(dataset)
+#任务1 好友男女比例
+#根据我们希望探索的问题，需要从数据集中取出以下几个部分：
+#NickName:微信昵称
+#Sex:性别，1表示男性，2表示女性
+#Province:省份
+#City：城市
+#Signature：微信签名
+#打印dataset的数据类型
+print(dataset[0])
+print(type(dataset[0]))
+#打印第一条数据及数据类型
+print(type(dataset[0]['NickName']))
+#打印第一条数据的微信昵称
+print(dataset[0]['NickName'])
+#统计好友性别，分为男性，女性和未知单重，赋值到已经定义好的sex字典中
+sex=[]
+for i in dataset:
+    sex.append(i['Sex'])
+print(sex)
+male=0
+female=0
+unknown=0
+for i in sex:
+    if i==1:
+        male+=1
+    elif i==2:
+        female+=1
+    else:
+        unknown+=1
+print("我的好友中共有"，male,"位男性、"，female,"位女性，有"，unknown,"位好友未填写")
+plt.figure(figsize=(8,5),dpi=80)
+plt.axes(aspect=1)
+plt.pie([male,female,unknow],
+        labels=['Male','Female','Unknown'],
+        labeldistance=1.1,
+        autopct='%3.1f%%',
+        shadow=False,
+        startangle=90,
+        pctdistance=0.6)
+ plt.legend(loc='upper left',)
+ plt.title("My Wechat Friends Sex Ratio")
+ plt.title("My Wechat Friends Sex Ratio")
+ plt.show()
+ #任务2，好友地域分布
+ #使用list中append()方法将好友省份添加至province中，注意要去除空的字符串
+ #将好友所在省份（不为空）添加到province
+ province=[]
+ for i in dataset:
+     province.append(i['Province'])
+ print(province)
+ provnce=[pinyin.get(i,format="strip",delimiter="")for i in province if i !='']
+ print(province)
+ province=pd.DataFrame(province)
+ province.columns=['Province']
+ province['Number of Friends']=1
+ province.groupy('Province').sum().sort_values('Number of Friends',ascending=False)[:10].plot.bar()
+ 任务3生成好友个性签名词云图
+ 打印除第二条签名
+ signature=dataset[1]['Signature']
+ print(signature)
+ 
+ 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
